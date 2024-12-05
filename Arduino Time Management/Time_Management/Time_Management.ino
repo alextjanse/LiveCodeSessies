@@ -19,9 +19,9 @@ bool led_green_on;
 
 unsigned long current_time;
 
-unsigned long led_red_start;
-unsigned long led_blue_start;
-unsigned long led_green_start;
+unsigned long led_red_start_time;
+unsigned long led_blue_start_time;
+unsigned long led_green_start_time;
 
 bool run_parallel;
 
@@ -109,7 +109,7 @@ void loop_parallel() {
 
     digitalWrite(PIN_LED_RED, HIGH);
     led_red_on = true;
-    led_red_start = current_time;
+    led_red_start_time = current_time;
   }
 
   if (button_state_blue_curr == LOW && button_state_blue_prev == HIGH) {
@@ -117,7 +117,7 @@ void loop_parallel() {
 
     digitalWrite(PIN_LED_BLUE, HIGH);
     led_blue_on = true;
-    led_blue_start = current_time;
+    led_blue_start_time = current_time;
   }
 
   if (button_state_white_curr == LOW && button_state_white_prev == HIGH) {
@@ -125,22 +125,22 @@ void loop_parallel() {
 
     digitalWrite(PIN_LED_GREEN, HIGH);
     led_green_on = true;
-    led_green_start = current_time;
+    led_green_start_time = current_time;
   }
 
-  if (led_red_on && current_time - led_red_start >= 1000) {
+  if (led_red_on && current_time - led_red_start_time >= 1000) {
     digitalWrite(PIN_LED_RED, LOW);
     led_red_on = false;
   }
 
-  if (led_blue_on && current_time - led_blue_start >= 1000) {
+  if (led_blue_on && current_time - led_blue_start_time >= 1000) {
     digitalWrite(PIN_LED_BLUE, LOW);
-    led_red_on = false;
+    led_blue_on = false;
   }
 
-  if (led_green_on && current_time - led_green_start >= 1000) {
+  if (led_green_on && current_time - led_green_start_time >= 1000) {
     digitalWrite(PIN_LED_GREEN, LOW);
-    led_red_on = false;
+    led_green_on = false;
   }
 
   button_state_red_prev = button_state_red_curr;
