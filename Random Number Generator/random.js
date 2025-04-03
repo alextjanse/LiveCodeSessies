@@ -76,7 +76,7 @@ function getRandomString(length)
     return result;
 }
 
-// console.log(getRandomString(100));
+//  console.log(getRandomString(100));
 
 /**
  * Pick a random item from a list.
@@ -109,3 +109,36 @@ function pickRandomCard()
 
     return `${card} of ${suit}`;
 }
+
+const deck = [];
+
+const cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+const suits = ['Hearts', 'Spades', 'Diamonds', 'Clovers'];
+
+cards.forEach(card => {
+    suits.forEach(suit => {
+        deck.push(`${card} of ${suit}`);
+    })
+})
+
+for (let i = 0; i < 2; i++) {
+    deck.push('Joker');
+}
+
+/**
+ * 
+ * @param {string[]} deck 
+ */
+function popRandomCard(deck) {
+    const index = getRandomInt(0, deck.length);
+
+    const card = deck[index];
+
+    deck.splice(index, 1);
+
+    return card;
+}
+
+console.log(popRandomCard(deck));
+
+console.log(deck);
