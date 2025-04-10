@@ -217,13 +217,13 @@ function BFS(start, end) {
 
 // uniform-cost search
 function UCS(start, end) {
-    const queue = [{ location: start, length: 0, route: [start] }];
+    const priorityQueue = [{ location: start, length: 0, route: [start] }];
 
     const visited = new Set();
 
-    while (queue.length > 0) {
-        queue.sort((a, b) => a.length - b.length);
-        const { location, length, route } = queue.shift();
+    while (priorityQueue.length > 0) {
+        priorityQueue.sort((a, b) => a.length - b.length);
+        const { location, length, route } = priorityQueue.shift();
 
         if (visited.has(location)) continue;
         visited.add(location);
@@ -232,7 +232,7 @@ function UCS(start, end) {
             return route;
         }
 
-        queue.push(...romaniaMap[location].neighbors.map(({ city, cost } ) => {
+        priorityQueue.push(...romaniaMap[location].neighbors.map(({ city, cost } ) => {
             return { location: city, length: length + cost, route: [...route, city] };
         }));
     }
@@ -260,13 +260,13 @@ function heuristicScore(location, end) {
 }
 
 function greedySearch(start, end) {
-    const queue = [{ location: start, length: 0, route: [start] }];
+    const priorityQueue = [{ location: start, length: 0, route: [start] }];
 
     const visited = new Set();
 
-    while (queue.length > 0) {
-        queue.sort((a, b) => heuristicScore(a.location, end) - heuristicScore(b.location, end));
-        const { location, length, route } = queue.shift();
+    while (priorityQueue.length > 0) {
+        priorityQueue.sort((a, b) => heuristicScore(a.location, end) - heuristicScore(b.location, end));
+        const { location, length, route } = priorityQueue.shift();
 
         if (visited.has(location)) continue;
         visited.add(location);
@@ -275,7 +275,7 @@ function greedySearch(start, end) {
             return route;
         }
 
-        queue.push(...romaniaMap[location].neighbors.map(({ city, cost } ) => {
+        priorityQueue.push(...romaniaMap[location].neighbors.map(({ city, cost } ) => {
             return { location: city, length: length + cost, route: [...route, city] };
         }));
     }
@@ -284,13 +284,13 @@ function greedySearch(start, end) {
 }
 
 function AStarSearch(start, end) {
-    const queue = [{ location: start, length: 0, route: [start] }];
+    const priorityQueue = [{ location: start, length: 0, route: [start] }];
 
     const visited = new Set();
 
-    while (queue.length > 0) {
-        queue.sort((a, b) => (heuristicScore(a.location, end) + a.length) - (heuristicScore(b.location, end) + b.length));
-        const { location, length, route } = queue.shift();
+    while (priorityQueue.length > 0) {
+        priorityQueue.sort((a, b) => (heuristicScore(a.location, end) + a.length) - (heuristicScore(b.location, end) + b.length));
+        const { location, length, route } = priorityQueue.shift();
 
         if (visited.has(location)) continue;
         visited.add(location);
@@ -299,7 +299,7 @@ function AStarSearch(start, end) {
             return route;
         }
 
-        queue.push(...romaniaMap[location].neighbors.map(({ city, cost } ) => {
+        priorityQueue.push(...romaniaMap[location].neighbors.map(({ city, cost } ) => {
             return { location: city, length: length + cost, route: [...route, city] };
         }));
     }
