@@ -1,9 +1,14 @@
+// Enum
 const AgentState = {
-    IDLE: "IDLE",
-    MOVING: "MOVING",
-    FINISHED: "FINISHED",
+    IDLE: 0,
+    RUNNING: 1,
+    FINISHED: 2,
 };
 
+/**
+ * Agent class. An agent is defined as a worker that has a list of instructions
+ * that it steps through 
+ */
 class Agent {
     constructor(name, instructions) {
         this.name = name;
@@ -16,7 +21,7 @@ class Agent {
     step() {
         const { name, state, instructions, currentInstruction } = this;
         
-        if (state === AgentState.FINISHED) return;
+        if (isDone()) return;
 
         this.state = AgentState.MOVING;
 
@@ -28,10 +33,13 @@ class Agent {
 
         if (this.currentInstruction === instructions.length) {
             this.state = AgentState.FINISHED;
-            this.hasReachGoal = true;
             console.log(`Agent ${name} is klaar`);
         }
     }
+
+    isIdle = () => this.state === AgentState.IDLE;
+    isRunning = () => this.state === AgentState.RUNNING;
+    isDone = () => this.state === AgentState.FINISHED;
 }
 
 const agents = [
@@ -64,24 +72,28 @@ const agents = [
     ])
 ];
 
+/**
+ * Sleep the program for a given number of milliseconds.
+ * @param {number} ms 
+ */
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function stepAll() {
+async function run() {
     let allDone = true;
 
     for (const agent of agents) {
         agent.step();
 
-        if (!agent.hasReachGoal) {
+        if (!agent.isDone()) {
             allDone = false;
         }
     }
 
     if (allDone) return;
     await sleep(100);
-    await stepAll();
+    await run();
 }
 
-stepAll();
+run();
