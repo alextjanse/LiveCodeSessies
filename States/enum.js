@@ -7,23 +7,27 @@ const AgentState = {
 
 /**
  * Agent class. An agent is defined as a worker that has a list of instructions
- * that it steps through 
+ * that it steps through with the step function.
  */
 class Agent {
     constructor(name, instructions) {
         this.name = name;
         this.instructions = instructions;
         this.currentInstruction = 0;
-        this.state = AgentState.IDLE; // state enum
-        this.hasReachGoal = false; // state flag
+        this.state = AgentState.IDLE;
     }
+    
+    // Flags - increase readability!
+    isIdle = () => this.state === AgentState.IDLE;
+    isRunning = () => this.state === AgentState.RUNNING;
+    isDone = () => this.state === AgentState.FINISHED;
 
     step() {
-        const { name, state, instructions, currentInstruction } = this;
+        const { name, instructions, currentInstruction } = this;
         
-        if (isDone()) return;
+        if (this.isDone()) return;
 
-        this.state = AgentState.MOVING;
+        this.state = AgentState.RUNNING;
 
         const instruction = instructions[currentInstruction];
 
@@ -36,10 +40,6 @@ class Agent {
             console.log(`Agent ${name} is klaar`);
         }
     }
-
-    isIdle = () => this.state === AgentState.IDLE;
-    isRunning = () => this.state === AgentState.RUNNING;
-    isDone = () => this.state === AgentState.FINISHED;
 }
 
 const agents = [
@@ -80,6 +80,9 @@ async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+/**
+ * Run all agents to completion.
+ */
 async function run() {
     let allDone = true;
 
