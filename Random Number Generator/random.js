@@ -62,21 +62,19 @@ function getRandomInt(lb = 0, ub = 1)
  */
 function getRandomString(length)
 {
-    let result = '';
+    const asciiCodes = [];
 
     for (let i = 0; i < length; i++)
     {
-        const ascii = getRandomInt(33, 122 + 1) // ASCII-value of ! to z (+ 1)
+        const asciiCode = getRandomInt(33, 126 + 1); // ASCII-value of ! to z (+ 1)
 
-        const char = String.fromCharCode(ascii);
-
-        result += char;
+        asciiCodes.push(asciiCode);
     }
 
-    return result;
+    return String.fromCharCode(...asciiCodes);
 }
 
-//  console.log(getRandomString(100));
+ console.log(getRandomString(100));
 
 /**
  * Pick a random item from a list.
@@ -139,6 +137,6 @@ function popRandomCard(deck) {
     return card;
 }
 
-console.log(popRandomCard(deck));
+// console.log(popRandomCard(deck));
 
-console.log(deck);
+// console.log(deck);
