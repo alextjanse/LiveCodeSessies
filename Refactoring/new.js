@@ -26,8 +26,9 @@ function processCart(items, taxRate, discountCode) {
     }
 
     total = applyDiscount(total, discountCode);
-
-    total = total + (total * taxRate);
+    
+    // Apply taxes
+    total *= 1 + taxRate;
 
     console.log("Het totaal van je winkelwagen is: " + total + " euro");
     return total;
