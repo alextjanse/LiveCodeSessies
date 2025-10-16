@@ -29,17 +29,17 @@ def is_prime3(n):
 
 def is_prime4(n):
     for p in prime_set:
-        if n % p == 0:
+        if n % p == 0 and n != p:
             return False
     return True
 
 def is_prime5(n):
     for p in prime_list:
         if p * p > n:
-            return False
+            break
         if n % p == 0:
             return False
-        return True
+    return True
 
 for n in range(3, 10**6, 2):
     if is_prime1(n):
