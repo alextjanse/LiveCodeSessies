@@ -14,7 +14,9 @@ const gemTemp = process.argv[2];
 const neerslag = process.argv[3];
 const laagTemp = process.argv[4];
 
-const isWarmLand = (gemTemp > 20 && neerslag < 750) ||
-    !(laagTemp < 10 && gemTemp < 25);
+const eerste_check = (gemTemp >= 20) && (neerslag < 750);
+const tweede_check = !((laagTemp < 10) || (gemTemp < 25));
+const isWarmLand = eerste_check || tweede_check;
+const temp = (gemTemp >= 20) && (neerslag < 750) || !((laagTemp < 10) || (gemTemp < 25));
 
 console.log(`Het land is warm: ${isWarmLand}`);
